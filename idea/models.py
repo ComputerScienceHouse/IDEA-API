@@ -19,6 +19,8 @@ class Ideas(db.Model):
     :submitter: The submitter of the idea
     :idea_time: The time that the idea was submitted
     """
+    __tablename__ = 'ideas'
+
     id = db.Column(db.Integer, primary_key=True)
     idea_text = db.Column(TEXT)
     submitter = db.Column(TEXT)
@@ -36,7 +38,7 @@ class Ideas(db.Model):
         self.idea_time = str(datetime.now(pytz.utc))
 
     @classmethod
-    def create(cls, idea_text: str, submitter: str) -> dict:
+    def create(cls, idea_text: str, submitter: str):
         """
         Creates the idea object and commits it to the database
 
@@ -47,7 +49,7 @@ class Ideas(db.Model):
         new_idea = cls(idea_text, submitter)
         db.session.add(new_idea)
         db.session.commit()
-        return new_idea.to_dict()
+        return new_idea
 
     def to_dict(self) -> dict:
         """
